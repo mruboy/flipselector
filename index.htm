@@ -1,0 +1,203 @@
+<html>
+  <head>
+   <title>Kusoge Fighter II</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+<!--
+Tuff E Nuff
+Primal Rage
+Guilty Gear
+Power Moves
+
+Rise 2
+Avengers Galactic Storm
+Slaughter Sport
+Saturday Night Slam Masters
+-->
+	<style type="text/css">
+	  body{
+		background-color:#010163;
+		background-image:url("images/bg.gif");
+		background-size:contain;
+		position:relative;
+		margin: 0!important;
+	  }
+	  	  
+      .card {
+        width: 200px;
+        height: 250px;
+        margin: 20px;
+		float:left;		
+      }
+	  .inactive .front{
+	  }
+	  .front{
+	    background-image:url("images/questionmark.jpg");
+		background-position: center;
+	  }
+      .front, .back, .other-front, .other-back {
+        border: 2px #778589 solid;
+        padding: 10px;
+      }
+      .front, .other-front {
+        background-color: #ccc;
+      }
+      .back, .other-back {
+        background-color: #EA232C;
+      }
+	  #card-container{
+		width: 800px;
+		margin: 0 auto;
+		text-align:center;
+	  }
+	  #boss-card{
+		float:left;
+		position:relative;
+	  }
+	  #boss-card #card-cover{
+	    background-image:url("images/questionmarkinactive.jpg");
+		background-position: center;
+		position: absolute;
+		top: 0;
+		right: -2px;
+		z-index: 10;
+		width: 220px;
+		height: 274px;
+		margin: 20px 0;
+		float: left;
+	  }
+	  #jasoncontainer{
+		position:absolute;
+		width:100%;
+		height:100%;
+		z-index:100;
+		background-color:#000;
+		display:none;
+		color:#fff;
+		font-size:150px;
+		text-align:center;
+	  }
+	  #jasontext{
+		position:absolute;
+		top:40%;
+		text-align:center;
+		width:100%;
+		font-family:sans-serif;
+		font-weight:900;
+	  }
+	  #jasonsubtext{
+		display:none;
+		font-size: 75px;
+		font-weight:300;
+	  }
+    </style>
+  </head>
+  <body>
+	<div id="jasoncontainer"><div id="jasontext">JASON!<div id="jasonsubtext">just kidding</div></div></div>
+	<div id="card-container">
+    <div id="card-1" class="card active" game="gamex1">
+      <div class="front">
+      </div>
+      <div class="back">
+        <img src="images/game1.jpg">
+      </div> 
+    </div>
+
+	
+    <div id="card-1b" class="card">
+    </div>
+
+
+    <div id="card-2" class="card active" game="gamex2">
+      <div class="front">
+      </div>
+      <div class="back">
+        <img src="images/game2.jpg">
+      </div> 
+    </div>
+
+	
+    <div id="card-2b" class="card">
+    </div>
+	
+	
+	<div id="boss-card">
+	<div id="card-cover"></div>
+    <div id="card-2c" class="card inactive">
+	  <div class="front">
+      </div>
+      <div class="back">
+        <img src="images/game5.jpg">
+      </div> 
+    </div>
+	</div>
+	
+    <div id="card-2d" class="card">
+    </div>
+	
+	
+    <div id="card-3" class="card active" game="gamex3">
+      <div class="front">
+      </div>
+      <div class="back">
+        <img src="images/game3.jpg">
+      </div> 
+    </div>
+
+	<div id="card-3b" class="card">
+    </div>
+	
+    <div id="card-4" class="card active" game="gamex4">
+      <div class="front">
+      </div>
+      <div class="back">
+        <img src="images/game4.jpg">
+      </div> 
+    </div>
+	
+	</div>
+
+    <script type="text/javascript">
+    $(function(){
+      $(".card").flip({
+        axis: "y",
+        reverse: false,
+        trigger: "click"		
+      });
+	  
+	  $(".card").on('flip:done',function(){
+			$(this).off(".flip");
+			console.log("Clicked on " + $(this).attr("game"));
+			
+			opengame($(this).attr("game"));
+						
+			var card1flipped = $("#card-1").data("flip-model");
+			var card2flipped = $("#card-2").data("flip-model");
+			var card3flipped = $("#card-3").data("flip-model");
+			var card4flipped = $("#card-4").data("flip-model");
+
+			if(card1flipped.isFlipped && card2flipped.isFlipped && card3flipped.isFlipped && card4flipped.isFlipped){
+				$("#card-cover").remove();
+			}
+			
+			if($(this).attr("id") == "card-2c"){
+			flashJason();
+			}
+	  });
+    });
+	
+	function opengame(game){
+	    setTimeout(function(){ console.log("Opening game " + game); }, 3000);
+	}
+	
+	function flashJason(){
+		
+	    $("#jasoncontainer").fadeIn("fast").fadeOut("fast").delay(25).fadeIn("fast").delay(25).fadeOut("fast").delay(25).fadeIn("fast").delay(25).fadeOut("fast").delay(25).fadeIn("fast", function(){
+			$("#jasonsubtext").delay(750).fadeIn("fast");
+
+		});
+	}
+    </script>
+  </body>
+</html>
