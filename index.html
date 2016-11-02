@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+
 <!--
 Tuff E Nuff
 Primal Rage
@@ -27,20 +30,21 @@ Saturday Night Slam Masters
 	  }
 	  	  
       .card {
-        width: 180px;
-        height: 200px;
+        width: 90px;
+        height: 100px;
         margin: 20px;
 		float:left;		
       }
 	  .card img{
-		width: 180px;
-		height: 200px;
+		width: 90px;
+		height: 100px;
 	  }
 	  .inactive .front{
 	  }
 	  .front{
 	    background-image:url("images/questionmark.jpg");
 		background-position: center;
+		background-size: contain;
 	  }
       .front, .back, .other-front, .other-back {
         border: 2px #778589 solid;
@@ -50,11 +54,11 @@ Saturday Night Slam Masters
         background-color: #ccc;
       }
       .back, .other-back {
-        background-color: #EA232C;
+        background-color: #b6dcff;
       }
 	  #card-container{
-		width: 660px;
-		margin: 0 auto;
+		width: 390px;
+		margin: 200px auto 0;
 		text-align:center;
 	  }
 	  #boss-card{
@@ -68,15 +72,16 @@ Saturday Night Slam Masters
 		top: 0;
 		right: -2px;
 		z-index: 10;
-		width: 200px;
-		height: 222px;
+		width: 111px;
+		height: 122px;
 		margin: 20px 0;
 		float: left;
+		background-size: contain;
 	  }
 	  #jasoncontainer{
 		position:absolute;
 		width:100%;
-		height:100%;
+		height:140%;
 		z-index:100;
 		background-color:#000;
 		display:none;
@@ -86,7 +91,7 @@ Saturday Night Slam Masters
 	  }
 	  #jasontext{
 		position:absolute;
-		top:40%;
+		top:35%;
 		text-align:center;
 		width:100%;
 		font-family:sans-serif;
@@ -100,9 +105,19 @@ Saturday Night Slam Masters
     </style>
   </head>
   <body>
+
+
+
+
+
+
+
+
+
+
 	<div id="jasoncontainer"><div id="jasontext">JASON!<div id="jasonsubtext">just kidding</div></div></div>
 	<div id="card-container">
-    <div id="card-1" class="card active" game="gamex1">
+    <div id="card-1" class="card active" game="Primal Rage (USA)" system="psx">
       <div class="front">
       </div>
       <div class="back">
@@ -115,7 +130,7 @@ Saturday Night Slam Masters
     </div>
 
 
-    <div id="card-2" class="card active" game="gamex2">
+    <div id="card-2" class="card active" game="slammast" system="arc">
       <div class="front">
       </div>
       <div class="back">
@@ -130,7 +145,7 @@ Saturday Night Slam Masters
 	
 	<div id="boss-card">
 	<div id="card-cover"></div>
-    <div id="card-2c" class="card inactive">
+    <div id="card-2c" class="card inactive" game="Guilty Gear (USA) (v1.0)" system="psx">
 	  <div class="front">
       </div>
       <div class="back">
@@ -143,7 +158,7 @@ Saturday Night Slam Masters
     </div>
 	
 	
-    <div id="card-3" class="card active" game="gamex3">
+    <div id="card-3" class="card active" game="bloodstm" system="arc">
       <div class="front">
       </div>
       <div class="back">
@@ -154,7 +169,7 @@ Saturday Night Slam Masters
 	<div id="card-3b" class="card">
     </div>
 	
-    <div id="card-4" class="card active" game="gamex4">
+    <div id="card-4" class="card active" game="Tuff E Nuff" system="snes">
       <div class="front">
       </div>
       <div class="back">
@@ -165,6 +180,15 @@ Saturday Night Slam Masters
 	</div>
 
     <script type="text/javascript">
+
+
+	var romsbasepath = '"/Users/ryanyoo/Emulators/';
+	var snes_rom_path = 'Super Nintendo/';
+	var nes_rom_path =  'NES ALL ROMS/Games Released in the US/';
+	var systemromspath = "";
+	var rom_file = false;
+
+
     $(function(){
       $(".card").flip({
         axis: "y",
@@ -174,10 +198,12 @@ Saturday Night Slam Masters
 	  
 	  $(".card").on('flip:done',function(){
 			$(this).off(".flip");
-			console.log("Clicked on " + $(this).attr("game"));
 			
-			opengame($(this).attr("game"));
-						
+
+			if($(this).attr("id") != "card-2c"){
+				opengame($(this).attr("game"), $(this).attr("system"));
+			}
+
 			var card1flipped = $("#card-1").data("flip-model");
 			var card2flipped = $("#card-2").data("flip-model");
 			var card3flipped = $("#card-3").data("flip-model");
@@ -188,14 +214,71 @@ Saturday Night Slam Masters
 			}
 			
 			if($(this).attr("id") == "card-2c"){
-			flashJason();
+				flashJason();
+				var game = $(this).attr("game");
+				var system = $(this).attr("system");
+
+				setTimeout(function(){
+					opengame(game,system);
+				}, 4000);
 			}
 	  });
     });
 	
-	function opengame(game){
-	    setTimeout(function(){ console.log("Opening game " + game); }, 3000);
-	}
+	function opengame(game, system){
+
+//setTimeout(function(){ console.log("Opening game " + game); }, 3000);
+//game = "Guilty Gear (USA) (v1.0)";
+//system = "psx";
+//console.log("Rom File: " + game);
+
+		var romsbasepath = '"/Users/ryanyoo/Emulators/';
+
+		if(system == "psx"){
+			game = game + "/" + game;
+		}
+		var systempaths = [];
+		systempaths["snes"] = 'Super Nintendo/';
+		systempaths["gen"] = 'Genesis/';
+		systempaths["nes"] = 'NES ALL ROMS/Games Released in the US/';
+		systempaths["arc"] = 'mame/roms/';
+		systempaths["psx"] = 'PSX/';
+		systempaths["gba"] = 'GBA/';
+		systempaths["gbc"] = 'GBA/';
+		systempaths["ds"] = 'Nintendo DS/';
+
+
+		var gameextensions = [];
+		gameextensions["snes"] = ".zip";
+		gameextensions["gen"] = ".zip";
+		gameextensions["nes"] = ".nes";
+		gameextensions["arc"] = ".zip";
+		gameextensions["psx"] = ".cue";
+		gameextensions["gba"] = ".zip";
+		gameextensions["gbc"] = ".zip";
+		gameextensions["ds"] = ".nds";
+	
+
+		rom_file = game + gameextensions[system];
+
+		setTimeout(function(){
+		if(rom_file){					
+			var request = $.ajax({
+			type: 'POST',      
+			data: { game: romsbasepath + systempaths[system] + rom_file + '"'},    
+			url: 'execute.php',
+			success: function(response) {
+			// console.log("Response: " + response);
+			},
+			dataType: "text",
+			});
+			}
+		}, 1000);				
+		console.log("Running " + romsbasepath + systempaths[system] + rom_file); 
+
+	}//opengame
+
+
 	
 	function flashJason(){
 		

@@ -1,0 +1,98 @@
+<html>
+  	<head>
+   	<title>24 Hour Countdown</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+	<style type="text/css">
+	.timeunit{
+		float:left;
+		color: red;
+		font-weight:bold;
+		font-family:'digital_dreamregular', sans-serif;
+		  font-size: 14vw;
+
+	}
+	@font-face {
+    font-family: 'digital_dreamregular';
+    src: url('fonts/DIGITALDREAM-webfont.eot');
+    src: url('fonts/DIGITALDREAM-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/DIGITALDREAM-webfont.woff') format('woff'),
+         url('fonts/DIGITALDREAM-webfont.ttf') format('truetype'),
+         url('fonts/DIGITALDREAM-webfont.svg#digital_dreamregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+	</style>
+
+<script>
+
+window.onload = function(e){
+//eventTime = moment('06-11-2016 09:00:00', 'DD-MM-YYYY HH:mm:ss').unix(),
+        
+    var $clock = $('#clock'),
+        eventTime = moment().add(24, 'h').unix(),
+        currentTime = moment().unix(),
+        diffTime = eventTime - currentTime,
+        duration = moment.duration(diffTime * 1000, 'milliseconds'),
+        interval = 1000;
+
+    // if time to countdown
+    if(diffTime > 0) {
+
+        // Show clock
+        // $clock.show();
+
+        var $y = $('<div class="timeunit years" ></div>').appendTo($clock),
+            $mt = $('<div class="timeunit months" ></div>').appendTo($clock),
+            $d = $('<div class="timeunit days" ></div>').appendTo($clock),
+            $h = $('<div class="timeunit hours" ></div>').appendTo($clock),
+            $m = $('<div class="timeunit minutes" ></div>').appendTo($clock),
+            $s = $('<div class="timeunit seconds" ></div>').appendTo($clock);
+
+        setInterval(function(){
+
+            duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+            var y = moment.duration(duration).years(),
+                mt = moment.duration(duration).months(),
+                d = moment.duration(duration).days(),
+                h = moment.duration(duration).hours(),
+                m = moment.duration(duration).minutes(),
+                s = moment.duration(duration).seconds();
+
+            y = $.trim(y).length === 1 ? '0' + y : y;
+            mt = $.trim(mt).length === 1 ? '0' + mt : mt;
+            d = $.trim(d).length === 1 ? '0' + d : d;
+            h = $.trim(h).length === 1 ? '0' + h : h;
+            m = $.trim(m).length === 1 ? '0' + m : m;
+            s = $.trim(s).length === 1 ? '0' + s : s;
+
+            // show how many hours, minutes and seconds are left
+            //$y.text(y);
+            //$mt.text(mt);
+            //$d.text(d);
+            $h.text(h + ":");
+            $m.text(m + ":");
+            $s.text(s);
+
+        }, interval);
+
+    }
+
+};
+
+
+</script>
+
+
+	</head>
+
+<body>
+
+<div id="clock"></div>
+
+</body>
+
+</html>
